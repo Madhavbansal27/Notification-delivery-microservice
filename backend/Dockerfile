@@ -24,6 +24,9 @@ RUN npm ci --include=dev
 # Copy all application source files.
 COPY . .
 
+# Generate Prisma client after schema is available.
+RUN npx prisma generate
+
 # Build the TypeScript application.
 RUN npm run build
 
