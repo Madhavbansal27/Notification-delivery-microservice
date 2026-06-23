@@ -1,0 +1,7 @@
+backend/.env
+backend/dist/
+backend/node_modules/
+backend/generated/
+frontend/dist/
+frontend/node_modules/
+prisma-client-6.19.3.tgz
