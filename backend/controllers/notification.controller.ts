@@ -1,8 +1,11 @@
 import { Request, Response } from 'express'
-import { NotificationStatus } from '@prisma/client'
 import { checkRateLimit } from '../services/rateLimit.service'
 import { createNotification } from '../services/notification.service'
 import { prisma } from '../config/db'
+
+const notificationStatuses = ['QUEUED', 'FAILED', 'PROCESSING', 'DELIVERED'] as const
+
+type NotificationStatusType = (typeof notificationStatuses)[number]
 
 export const sendNotification = async (req: Request, res: Response) => {
   const { userId, type, channel, priority, title, body, metadata } = req.body
@@ -55,8 +58,8 @@ export const getUserNotifications = async (req: Request, res: Response) => {
   const limit = Number(req.query.limit)
   const statusParam = req.query.statusParam as string
 
-  const status = typeof statusParam === 'string' && Object.values(NotificationStatus).includes(statusParam as NotificationStatus)
-    ? (statusParam as NotificationStatus)
+  const status = typeof statusParam === 'string' && notificationStatuses.includes(statusParam as NotificationStatusType)
+    ? (statusParam as NotificationStatusType)
     : undefined
 
   const notifications = await prisma.notification.findMany({
