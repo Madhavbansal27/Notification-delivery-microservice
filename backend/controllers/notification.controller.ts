@@ -82,6 +82,5 @@ export const getNotificationById = async (req: Request, res: Response) => {
   if (!notification) {
     return res.status(404).json({ error: 'Notification not found' })
   }
-
   return res.json({ notification })
 }
