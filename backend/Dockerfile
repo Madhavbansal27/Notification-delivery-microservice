@@ -24,6 +24,9 @@ RUN npm ci --include=dev
 # Copy all application source files.
 COPY . .
 
+# Provide a build-time placeholder DATABASE_URL so Prisma can validate the schema.
+ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/prisma"
+
 # Generate Prisma client after schema is available.
 RUN npx prisma generate
 
